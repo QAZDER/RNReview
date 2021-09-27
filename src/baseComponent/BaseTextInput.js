@@ -12,11 +12,14 @@ export default class BaseTextInput extends React.Component {
     this.state = {
       value: props.defaultValue,
     };
+    console.log(TAG, 'construct----' + props);
+    console.log(props);
     initValue = props.defaultValue;
   }
 
   componentDidMount() {
     console.log(TAG + 'componentDidMount', this.props.onHandleFunc);
+    console.log(this.props);
     this.props.onHandleFunc(this);
   }
 
@@ -44,7 +47,8 @@ export default class BaseTextInput extends React.Component {
   }
 
   render() {
-    console.log(TAG + 'render');
+    console.log(TAG + 'render=---');
+    console.log(this.props);
     return (
       <View style={styleSheets.container}>
         <TextInput

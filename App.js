@@ -13,6 +13,7 @@ import BaseButton from './src/baseComponent/BaseButton';
 import BaseText from './src/baseComponent/BaseText';
 import BaseTextWithObj from './src/baseComponent/BaseTextWithObj';
 import BaseTextInput from './src/baseComponent/BaseTextInput';
+import BaseButtonFunc from './src/baseComponent/BaseButtonFunc';
 
 const TAG = 'APP ';
 export default class App extends React.Component {
@@ -34,12 +35,14 @@ export default class App extends React.Component {
   // React.createRef 创建一个能够通过 ref 属性附加到 React 元素的 ref。
   inputRef = React.createRef();
 
+  buttonRef = React.createRef(null);
+
   componentWillMount() {
-    console.log(TAG, 'componentWillMount...');
+    console.log(TAG, 'componentWillMount...', this.inputRef);
   }
 
   componentDidMount() {
-    console.log(TAG, 'componentDidMount...');
+    console.log(TAG, 'componentDidMount...', this.inputRef);
     // setTimeout(() => {
     //   this.setState({
     //     originText: 'changed',
@@ -74,7 +77,7 @@ export default class App extends React.Component {
           key={1}
           title={'resetInput'}
           onClick={() => {
-            this.inputRef.current.reset('newValue');
+            this.buttonRef.current.reset('newValue');
           }}
         />
         {/*<BaseText content={this.state.content} />*/}
@@ -86,17 +89,24 @@ export default class App extends React.Component {
         />
         <View style={{ flex: 0.3 }}>
           {this.state.arr1.map((item, index) => {
-            return (
-              <BaseTextWithObj item={item} />
-            );
+            return <BaseTextWithObj item={item} />;
           })}
           <BaseButton
             title={'change Arr'}
             onClick={() => {
               const newArr = this.state.arr1;
               newArr[1].value = 9;
+              newArr[1] = Object.assign({}, newArr[1]);
               // newArr[1] = 7;
               this.setState({ arr1: newArr });
+            }}
+          />
+          {/* 无法在函数组件上使用ref */}
+          <BaseButtonFunc
+            onRef={(value) => {
+              // 无效
+              this.buttonRef.current = value;
+              // this.buttonRef.current.alert();
             }}
           />
         </View>
